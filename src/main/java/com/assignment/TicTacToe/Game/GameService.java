@@ -22,24 +22,35 @@ public class GameService {
         this.gameRepository = gameRepository;
         this.userRepository = userRepository;
     }
-    public List<Game> getGamesForUser(long userId) {
+    public Game findById(int id) {
+        return gameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid game id"));
+    }
+
+    public Game save(Game game) {
+        return gameRepository.save(game);
+    }
+    public List<Game> getGamesForUser(int userId) {
         return gameRepository.findByPlayer1IdOrPlayer2Id(userId, userId);
     }
 
-    public Game createGame(long player1Id, long player2Id) {
+    public Game createGame(int player1Id, int player2Id) {
         User player1 = userRepository.findById(player1Id).orElseThrow(() -> new IllegalArgumentException("Invalid player1 id"));
         User player2 = userRepository.findById(player2Id).orElseThrow(() -> new IllegalArgumentException("Invalid player2 id"));
         Game game = new Game();
         game.setPlayer1Id(player1Id);
         game.setPlayer2Id(player2Id);
+        game.setStatus(GameStatus.NEW_GAME);
         game.setBoard("---------");
         game.setCurrentPlayerId(player1Id);
         game.setLastUpdatedTime(LocalDateTime.now());
         return gameRepository.save(game);
     }
 
-    public Game makeMove(long gameId, long playerID, int row, int col){
+    public Game makeMove(int gameId, int playerID, int row, int col){
         Game game = gameRepository.findById(gameId).orElseThrow(() -> new IllegalArgumentException("Invalid game id"));
+        if(game == null) {
+            throw new IllegalArgumentException("Invalid game id");
+        }
         if (game.getResult() != null) {
             throw new IllegalStateException("Game has already finished");
         }

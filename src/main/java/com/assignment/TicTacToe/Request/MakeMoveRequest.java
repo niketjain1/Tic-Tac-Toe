@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class MakeMoveRequest {
-    private long playerID;
+    private int playerID;
     private int row;
     private int col;
 }

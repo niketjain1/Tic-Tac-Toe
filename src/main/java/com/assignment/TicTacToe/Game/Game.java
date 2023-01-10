@@ -13,10 +13,10 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    private long player1Id;
-    private long player2Id;
+    private int player1Id;
+    private int player2Id;
 
     @Enumerated(EnumType.STRING)
     private GameStatus status;
@@ -25,7 +25,7 @@ public class Game {
     private GameResult result;
 
     private String board;
-    private long currentPlayerId;
+    private int currentPlayerId;
     private LocalDateTime lastUpdatedTime;
 
 

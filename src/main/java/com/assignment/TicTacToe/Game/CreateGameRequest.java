@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateGameRequest {
-    private long player1Id;
-    private long player2Id;
+    private int player1Id;
+    private int player2Id;
 }

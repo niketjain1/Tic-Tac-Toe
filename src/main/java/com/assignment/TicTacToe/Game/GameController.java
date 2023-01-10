@@ -17,13 +17,16 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @GetMapping
-    public List<Game> getGames(@RequestParam long userId) {
+    @GetMapping("/user/{userId}")
+    public List<Game> getGames(@PathVariable int userId) {
         return gameService.getGamesForUser(userId);
     }
-
-    @PostMapping("/{gameId}/move")
-    public Game makeMove(@PathVariable long gameId, @RequestBody MakeMoveRequest request) {
+    @PostMapping("/create-game")
+    public Game createGame(@RequestBody CreateGameRequest request) {
+        return gameService.createGame(request.getPlayer1Id(), request.getPlayer2Id());
+    }
+    @PutMapping("/{gameId}/move")
+    public Game makeMove(@PathVariable int gameId, @RequestBody MakeMoveRequest request) {
         return gameService.makeMove(gameId, request.getPlayerID(), request.getRow(), request.getCol());
     }
 }
